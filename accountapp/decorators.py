@@ -1,16 +1,24 @@
 
 
 
-def decorator(func):
-    def decorated(input_text):
-        print('함수 시작!')
-        func(input_text)
-        print('함수 끝!')
+
+
+
+def deco(func):
+    def decorated(h, d):
+        if h | d <= 0:
+            print('Error')
+        else:
+            func(h, d)
     return decorated
 
-@decorator
-def hello_world(input_text):
-    print(input_text)
+@deco
+def sq(h,d):
+    print(h*d)
+
+@deco
+def tr(h,d):
+    print(h*d/2)
 
 
-hello_world('Hello World!')
+sq(-2,3)
