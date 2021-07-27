@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
-
+from accountapp.decorators import account_ownership_required
 from accountapp.forms import AccountCreationForm
 from accountapp.models import NewModel
 
@@ -16,13 +16,11 @@ from accountapp.models import NewModel
 @login_required
 def hello_world(request):
     if request.method == "POST":
-
-        temp = request.POST.get('input_text')
+        temp = request.POST.get('next')
 
         new_model = NewModel()
         new_model.text = temp
         new_model.save()
-
         return HttpResponseRedirect(reverse('accountapp:hello_world'))
     else:
         data_list = NewModel.objects.all()
@@ -43,8 +41,11 @@ class AccountDetailView(DetailView):
     template_name = 'accountapp/detail.html'
 
 
-@method_decorator(login_required, 'get')
-@method_decorator(login_required, 'post')
+has_ownership = [login_required, account_ownership_required]
+
+
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class AccountUpdateView(UpdateView):
     model = User
     form_class = AccountCreationForm

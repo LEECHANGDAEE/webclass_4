@@ -1,24 +1,11 @@
+from django.http import HttpResponseForbidden
 
 
-
-
-
-
-def deco(func):
-    def decorated(h, d):
-        if h | d <= 0:
-            print('Error')
+def account_ownership_required(func):
+    def decorated(request, *args, **kwargs):
+        target_user = User.objects.get(pk=kwargs['pk'])
+        if target_user == request.user:
+            return func(request, *args, **kwargs)
         else:
-            func(h, d)
+            return HttpResponseForbidden()
     return decorated
-
-@deco
-def sq(h,d):
-    print(h*d)
-
-@deco
-def tr(h,d):
-    print(h*d/2)
-
-
-sq(-2,3)
