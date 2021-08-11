@@ -58,3 +58,11 @@
 }
 
 
+.comment_box{
+    text-align: left;
+    border: solid;
+    border-color: #ba9c9c;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+}
