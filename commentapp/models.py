@@ -12,4 +12,4 @@ class Comment(models.Model):
                                related_name='comment', null=True)
     content = models.TextField(null=False)
 
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
